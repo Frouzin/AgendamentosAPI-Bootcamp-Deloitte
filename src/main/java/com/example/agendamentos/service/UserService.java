@@ -1,5 +1,6 @@
 package com.example.agendamentos.service;
 
+import com.example.agendamentos.dto.PasswordResetDTO;
 import com.example.agendamentos.dto.UserRequestDTO;
 import com.example.agendamentos.dto.UserResponseDTO;
 import com.example.agendamentos.entity.User;
@@ -54,5 +55,11 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-
+    public UserResponseDTO resetPassword(PasswordResetDTO dto) {
+        User user = userRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com esse e-mail"));
+        user.setSenha(dto.getNovaSenha());
+        user = userRepository.save(user);
+        return userMapper.toDTO(user);
+    }
 }
