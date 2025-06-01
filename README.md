@@ -50,6 +50,9 @@ src
         ├── application.properties   # Configurações da aplicação
         └── static/templates         # Se precisar usar Swagger UI, e-mails, etc.
 
+```
+---
+
 ## 📦 Funcionalidades Principais
 
 ### 👥 Gerenciamento de Usuários
@@ -105,6 +108,8 @@ cd AgendamentosAPI-Bootcamp-Deloitte
 
 # Acesse a API em:
 http://localhost:8080
+
+```
 
 
 🧑‍💻 Autor
