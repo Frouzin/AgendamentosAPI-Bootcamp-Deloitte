@@ -1,11 +1,14 @@
 package com.example.agendamentos.service;
 
+import com.example.agendamentos.dto.PasswordResetDTO;
 import com.example.agendamentos.dto.UserRequestDTO;
 import com.example.agendamentos.dto.UserResponseDTO;
 import com.example.agendamentos.entity.User;
 import com.example.agendamentos.mapper.UserMapper;
 import com.example.agendamentos.repository.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,5 +57,18 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public UserResponseDTO resetPassword(PasswordResetDTO dto) {
+        User user = userRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com esse e-mail"));
+        user.setSenha(dto.getNovaSenha());
+        user = userRepository.save(user);
+        return userMapper.toDTO(user);
+    }
 
+    public User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
 }
