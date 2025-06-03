@@ -20,4 +20,7 @@ public record ServicoResponseDTO(
                 servico.getPreco()
         );
     }
+    public static ServicoResponseDTO fromEntity(Servico servico) {
+        return new ServicoResponseDTO(servico);
+    }
 }

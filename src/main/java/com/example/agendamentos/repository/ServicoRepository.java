@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ServicoRepository extends JpaRepository<Servico, Long> {
     List<Servico> findByProfissional(User profissional);
+    List<Servico> findByProfissionalId(Long profissionalId);
 }

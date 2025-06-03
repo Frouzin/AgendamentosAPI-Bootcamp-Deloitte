@@ -37,6 +37,11 @@ public class ServicoController {
         return ResponseEntity.ok(servicoService.listarDoProfissional(profissional));
     }
 
+    @GetMapping("/publicos/{profissionalId}")
+    public List<ServicoResponseDTO> getServicosByProfissional(@PathVariable Long profissionalId) {
+        return servicoService.listarDoProfissionalId(profissionalId);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ServicoResponseDTO> updateServico(@PathVariable Long id, @RequestBody @Valid ServicoRequestDTO dto) throws AccessDeniedException {
         User profissional = userService.getAuthenticatedUser();

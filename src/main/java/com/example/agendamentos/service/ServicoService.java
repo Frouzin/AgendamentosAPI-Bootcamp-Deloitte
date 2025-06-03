@@ -46,6 +46,13 @@ public class ServicoService {
                 .toList();
     }
 
+    public List<ServicoResponseDTO> listarDoProfissionalId(Long profissionalId) {
+        List<Servico> servicos = servicoRepository.findByProfissionalId(profissionalId);
+        return servicos.stream()
+                .map(ServicoResponseDTO::fromEntity)
+                .toList();
+    }
+
     public ServicoResponseDTO atualizar(Long id, ServicoRequestDTO dto, User profissional) throws AccessDeniedException {
         Servico servico = servicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
