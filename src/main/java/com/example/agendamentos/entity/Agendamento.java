@@ -12,10 +12,10 @@ public class Agendamento {
     private Long id;
 
     @ManyToOne
-    private User Cliente;
+    private User cliente;
 
     @ManyToOne
-    private User Profissional;
+    private User profissional;
 
     @ManyToOne
     private Servico servico;
@@ -35,19 +35,19 @@ public class Agendamento {
     }
 
     public User getCliente() {
-        return Cliente;
+        return cliente;
     }
 
     public void setCliente(User cliente) {
-        Cliente = cliente;
+        this.cliente = cliente;
     }
 
     public User getProfissional() {
-        return Profissional;
+        return profissional;
     }
 
     public void setProfissional(User profissional) {
-        Profissional = profissional;
+        this.profissional = profissional;
     }
 
     public Servico getServico() {
