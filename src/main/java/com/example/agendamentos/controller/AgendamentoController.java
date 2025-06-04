@@ -7,14 +7,12 @@ import com.example.agendamentos.service.AgendamentoService;
 import com.example.agendamentos.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/agendamentos")
-@PreAuthorize("hasRole('CLIENTE')")
 public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;
@@ -27,20 +25,17 @@ public class AgendamentoController {
 
     @PostMapping
     public ResponseEntity<AgendamentoResponseDTO> agendar(@RequestBody @Valid AgendamentoRequestDTO dto) {
-        User cliente = userService.getAuthenticatedUser();
-        return ResponseEntity.ok(agendamentoService.agendar(dto, cliente));
+        return ResponseEntity.ok(agendamentoService.agendar(dto));
     }
 
     @GetMapping
     public ResponseEntity<List<AgendamentoResponseDTO>> listar(){
-        User cliente = userService.getAuthenticatedUser();
-        return ResponseEntity.ok(agendamentoService.listarDoCliente(cliente));
+        return ResponseEntity.ok(agendamentoService.listarDoCliente());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> cancelar(@PathVariable Long id) {
-        User cliente = userService.getAuthenticatedUser();
-        agendamentoService.cancelarPorCliente(id, cliente);
+        agendamentoService.cancelarPorCliente(id);
         return ResponseEntity.noContent().build();
     }
 }

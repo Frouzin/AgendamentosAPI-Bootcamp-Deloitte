@@ -22,41 +22,26 @@ public class DisponibilidadeService {
         this.userService = userService;
     }
 
-    public DisponibilidadeResponseDTO createDisponibilidade(DisponibilidadeRequestDTO dto, User profissional) throws AccessDeniedException {
-        verificarPermissao(profissional);
+    public DisponibilidadeResponseDTO createDisponibilidade(DisponibilidadeRequestDTO dto) throws AccessDeniedException {
 
         Disponibilidade disponibilidade = new Disponibilidade();
         disponibilidade.setDiaDaSemana(dto.diaDaSemana());
         disponibilidade.setHoraInicio(dto.horaInicio());
         disponibilidade.setHoraFim(dto.horaFim());
-        disponibilidade.setProfissional(profissional);
 
         return new DisponibilidadeResponseDTO(disponibilidadeRepository.save(disponibilidade));
     }
 
-    public List<DisponibilidadeResponseDTO> listarDisponibilidade(User profissional) throws AccessDeniedException {
-        verificarPermissao(profissional);
+    public List<DisponibilidadeResponseDTO> listarDisponibilidade() throws AccessDeniedException {
 
-        return disponibilidadeRepository.findByProfissional(profissional).stream()
+        return disponibilidadeRepository.findAll().stream()
                 .map(DisponibilidadeResponseDTO::new)
                 .toList();
     }
 
-    public void deletarDisponibilidade(Long id, User profissional) throws AccessDeniedException {
-        Disponibilidade d = disponibilidadeRepository.findById(id)
+    public void deletarDisponibilidade(Long id) throws AccessDeniedException {
+        Disponibilidade disponibilidade = disponibilidadeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Disponibilidade não encontrada"));
-
-        if (!d.getProfissional().getId().equals(profissional.getId())) {
-            throw new AccessDeniedException("Não autorizado.");
-        }
-
-        disponibilidadeRepository.delete(d);
+        disponibilidadeRepository.delete(disponibilidade);
     }
-
-    private void verificarPermissao(User user) throws AccessDeniedException {
-        if (user.getTipoUsuario() != TipoUsuario.PROFISSIONAL) {
-            throw new AccessDeniedException("Apenas profissionais podem gerenciar disponibilidade.");
-        }
-    }
-
 }

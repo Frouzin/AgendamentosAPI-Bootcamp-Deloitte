@@ -7,7 +7,6 @@ import com.example.agendamentos.service.DisponibilidadeService;
 import com.example.agendamentos.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
@@ -15,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/disponibilidades")
-@PreAuthorize("hasRole('PROFISSIONAL')")
 public class DisponibilidadeController {
 
     private final DisponibilidadeService disponibilidadeService;
@@ -28,20 +26,17 @@ public class DisponibilidadeController {
 
     @PostMapping
     public ResponseEntity<DisponibilidadeResponseDTO> createDisponibilidade(@RequestBody @Valid DisponibilidadeRequestDTO dto) throws AccessDeniedException {
-        User profissional = userService.getAuthenticatedUser();
-        return ResponseEntity.ok(disponibilidadeService.createDisponibilidade(dto, profissional));
+        return ResponseEntity.ok(disponibilidadeService.createDisponibilidade(dto));
     }
 
     @GetMapping
     public ResponseEntity<List<DisponibilidadeResponseDTO>> getAllDisponibilidades() throws AccessDeniedException {
-        User profissional = userService.getAuthenticatedUser();
-        return ResponseEntity.ok(disponibilidadeService.listarDisponibilidade(profissional));
+        return ResponseEntity.ok(disponibilidadeService.listarDisponibilidade());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDisponibilidade(@PathVariable Long id) throws AccessDeniedException {
-        User profissional = userService.getAuthenticatedUser();
-        disponibilidadeService.deletarDisponibilidade(id, profissional);
+        disponibilidadeService.deletarDisponibilidade(id);
         return ResponseEntity.noContent().build();
     }
 
