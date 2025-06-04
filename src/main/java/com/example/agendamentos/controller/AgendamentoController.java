@@ -28,10 +28,10 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentoService.agendar(dto));
     }
 
-    @GetMapping
-    public ResponseEntity<List<AgendamentoResponseDTO>> listar(){
-        return ResponseEntity.ok(agendamentoService.listarDoCliente());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<AgendamentoResponseDTO>> listar(){
+//        return ResponseEntity.ok(agendamentoService.listarDoCliente());
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> cancelar(@PathVariable Long id) {

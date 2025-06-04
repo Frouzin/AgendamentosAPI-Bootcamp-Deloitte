@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -53,12 +54,12 @@ public class AgendamentoService {
         return new AgendamentoResponseDTO(agendamentoRepository.save(agendamento));
     }
 
-    public List<AgendamentoResponseDTO> listarDoCliente() {
-        return StreamSupport.stream(
-                        agendamentoRepository.findAllByStatus(StatusAgendamento.AGENDADO).spliterator(), false)
-                .map(AgendamentoResponseDTO::new)
-                .toList();
-    }
+//    public List<AgendamentoResponseDTO> listarDoCliente() {
+//        return StreamSupport.stream(
+//                        agendamentoRepository.findAllByStatus(StatusAgendamento.AGENDADO).spliterator(), false)
+//                .map(AgendamentoResponseDTO::new)
+//                .collect(Collectors.toList());
+//    }
 
     public void cancelarPorCliente(Long id) {
         Agendamento agendamento = agendamentoRepository.findById(id)
