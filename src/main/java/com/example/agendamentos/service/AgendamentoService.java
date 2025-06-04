@@ -54,12 +54,12 @@ public class AgendamentoService {
         return new AgendamentoResponseDTO(agendamentoRepository.save(agendamento));
     }
 
-//    public List<AgendamentoResponseDTO> listarDoCliente() {
-//        return StreamSupport.stream(
-//                        agendamentoRepository.findAllByStatus(StatusAgendamento.AGENDADO).spliterator(), false)
-//                .map(AgendamentoResponseDTO::new)
-//                .collect(Collectors.toList());
-//    }
+    public List<AgendamentoResponseDTO> listarDoCliente() {
+        return agendamentoRepository.findAllByStatus(StatusAgendamento.AGENDADO)
+                .stream()
+                .map(AgendamentoResponseDTO::new)
+                .collect(Collectors.toList());
+    }
 
     public void cancelarPorCliente(Long id) {
         Agendamento agendamento = agendamentoRepository.findById(id)
